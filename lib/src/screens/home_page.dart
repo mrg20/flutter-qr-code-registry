@@ -37,12 +37,11 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 40),
             ElevatedButton(
               onPressed: () async {
-                // print('Fitxar entrada'); // Acción al presionar el botón
                 final result = await Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          BarCodePage(settingsController: widget.settingsController)), // Navega a BarCodePage
+                          BarCodePage(settingsController: widget.settingsController, accessType: true)), // Navega a BarCodePage
                 );
                 // Ahora 'result' contiene el código QR escaneado
                 if (result != null) {
@@ -53,12 +52,31 @@ class _HomePageState extends State<HomePage> {
                   });
                 }
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 83, 163, 107),
+              ),
               child: const Text('Fitxar entrada'),
             ),
             ElevatedButton(
-              onPressed: () {
-                print('Fitxar sortida'); // Acción al presionar el botón
+              onPressed: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          BarCodePage(settingsController: widget.settingsController, accessType: false)), // Navega a BarCodePage
+                );
+                // Ahora 'result' contiene el código QR escaneado
+                if (result != null) {
+                  print("BAR CODE FOUND!");
+                  setState(() {
+                    qrCode =
+                        result; // Actualizamos la variable 'qrCode' con el valor capturado
+                  });
+                }
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 117, 155, 156),
+              ),
               child: const Text('Fitxar sortida'),
             ),
              SizedBox(height: 30),
