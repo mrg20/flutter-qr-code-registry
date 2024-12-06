@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_qr_code_registry/src/screens/first_page.dart';
+import 'package:flutter_qr_code_registry/src/screens/home_page.dart';
 import 'settings/settings_controller.dart';
 
 class MyApp extends StatelessWidget {
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           ),
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
-          home: FirstPage(settingsController: settingsController),
+          home: HomePage(settingsController: settingsController),
         );
       },
     );
