@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/home_page.dart';
+import 'package:flutter_qr_code_registry/src/screens/first_page.dart';
 import 'settings/settings_controller.dart';
 
 class MyApp extends StatelessWidget {
@@ -17,10 +17,13 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
           restorationScopeId: 'app',
-          theme: ThemeData(),
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 0, 32, 57)),
+          ),
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
-          home: const HomePage(),
+          home: FirstPage(settingsController: settingsController),
         );
       },
     );

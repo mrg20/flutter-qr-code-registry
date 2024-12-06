@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class HomePage extends StatefulWidget {
-  static const routeName = '/';
+  static const routeName = '/qr';
 
   const HomePage({super.key});
 
