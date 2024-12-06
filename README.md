@@ -1,4 +1,4 @@
-# qr_check_in
+# flutter_qr_code_registry
 
 A new Flutter project.
 

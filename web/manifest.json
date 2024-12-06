@@ -1,6 +1,6 @@
 {
-    "name": "qr_check_in",
-    "short_name": "qr_check_in",
+    "name": "flutter_qr_code_registry",
+    "short_name": "flutter_qr_code_registry",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
