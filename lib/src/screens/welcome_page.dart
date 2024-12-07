@@ -17,7 +17,8 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
+      if(!context.mounted) return;
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => HomePage(settingsController: settingsController)),
@@ -26,10 +27,10 @@ class WelcomePage extends StatelessWidget {
     });
 
     return Scaffold(
-      appBar: AppBar(title: Text('Benvingut/a!')),
-      body: Center(
+      appBar: AppBar(title: const Text('Benvingut/da!')),
+      body: const Center(
         child: Text(
-          'Benvingut/a $name!',
+          'Benvingut/da',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),

@@ -21,8 +21,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var colorScheme = Theme.of(context).colorScheme;
-    Widget page;
     return Scaffold(
       body: Center(
         child: Column(
@@ -45,7 +43,6 @@ class _HomePageState extends State<HomePage> {
                 );
                 // Ahora 'result' contiene el código QR escaneado
                 if (result != null) {
-                  print("BAR CODE FOUND!");
                   setState(() {
                     qrCode =
                         result; // Actualizamos la variable 'qrCode' con el valor capturado
@@ -67,7 +64,6 @@ class _HomePageState extends State<HomePage> {
                 );
                 // Ahora 'result' contiene el código QR escaneado
                 if (result != null) {
-                  print("BAR CODE FOUND!");
                   setState(() {
                     qrCode =
                         result; // Actualizamos la variable 'qrCode' con el valor capturado
@@ -79,13 +75,13 @@ class _HomePageState extends State<HomePage> {
               ),
               child: const Text('Fitxar sortida'),
             ),
-             SizedBox(height: 30),
+            const SizedBox(height: 30),
 
             // Mostrar el valor del QR si está disponible
             if (qrCode.isNotEmpty)
             Text(
               'Código QR: $qrCode', // Muestra el código QR escaneado
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ],
         ),

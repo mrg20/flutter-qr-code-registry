@@ -3,6 +3,8 @@ import 'package:flutter_qr_code_registry/src/screens/welcome_page.dart';
 import 'package:flutter_qr_code_registry/src/screens/bye_page.dart';
 import 'package:flutter_qr_code_registry/src/settings/settings_controller.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:flutter_qr_code_registry/src/api/sheets_api.dart';
+import 'package:flutter_qr_code_registry/src/screens/error_read.dart';
 
 class BarCodePage extends StatefulWidget {
   static const routeName = '/qr';
@@ -29,7 +31,7 @@ class _BarCodePageState extends State<BarCodePage> {
     return Scaffold(
       body: MobileScanner(
         controller: cameraController,
-        onDetect: (capture) {
+        onDetect: (capture) async {
           if (!hasScanned) {
             final List<Barcode> barcodes = capture.barcodes;
             if (barcodes.isNotEmpty) {
@@ -37,7 +39,20 @@ class _BarCodePageState extends State<BarCodePage> {
               final barcode = barcodes.first;
               debugPrint('Barcode found! ${barcode.rawValue}');
               
+              final isRegistered = await SheetsApi.checkUserInSheet(barcode.rawValue!);
+              if (!isRegistered) {
+                if(!context.mounted) return;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ErrorPage(name: barcode.rawValue!, settingsController: widget.settingsController),
+                  ),
+                );
+              }
+
               if (widget.accessType) {
+                await SheetsApi.writeToRegistry(barcode.rawValue!, "Entrada");
+                if(!context.mounted) return;
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -45,6 +60,8 @@ class _BarCodePageState extends State<BarCodePage> {
                   ),
                 );
               }else{
+                await SheetsApi.writeToRegistry(barcode.rawValue!, "Sortida");
+                if(!context.mounted) return;
                 Navigator.push(
                   context,
                   MaterialPageRoute(

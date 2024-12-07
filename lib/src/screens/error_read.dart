@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_qr_code_registry/src/screens/home_page.dart';
 import 'package:flutter_qr_code_registry/src/settings/settings_controller.dart';
 
-class ByePage extends StatelessWidget {
+class ErrorPage extends StatelessWidget {
   final String name;
     final SettingsController settingsController;
 
-
   // Constructor para recibir el nombre (valor del QR)
-  const ByePage({
+  const ErrorPage({
     super.key,
     required this.name,
     required this.settingsController,
@@ -27,10 +26,10 @@ class ByePage extends StatelessWidget {
     });
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Adéu!')),
+      appBar: AppBar(title: const Text('Error al llegir el QR. És correcte?')),
       body: const Center(
         child: Text(
-          'Adéu',
+          'Error al llegir el QR. És correcte?',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
