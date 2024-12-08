@@ -51,11 +51,15 @@ migrate_working_dir/
 **/macos/Flutter/Flutter-Debug.xcconfig
 **/macos/Flutter/Flutter-Release.xcconfig
 **/macos/Flutter/Flutter-Profile.xcconfig
+macos/Flutter/GeneratedPluginRegistrant.swift
 
 # Windows related
 **/windows/flutter/generated_plugin_registrant.cc
 **/windows/flutter/generated_plugin_registrant.h
 **/windows/flutter/generated_plugins.cmake
+windows/flutter/generated_plugin_registrant.cc
+windows/flutter/generated_plugin_registrant.h
+windows/flutter/generated_plugins.cmake
 
 # Web related
 /web/favicon.png

@@ -23,7 +23,7 @@ class BarCodePage extends StatefulWidget {
 }
 
 class _BarCodePageState extends State<BarCodePage> {
-  MobileScannerController cameraController = MobileScannerController();
+  MobileScannerController cameraController = MobileScannerController(facing: CameraFacing.front);
   bool hasScanned = false;
 
   @override
@@ -71,6 +71,48 @@ class _BarCodePageState extends State<BarCodePage> {
               }
             }
           }
+        },
+        overlayBuilder: (context, constraints) {
+          return Stack(
+            children: [
+              ColoredBox(
+                color: Colors.black.withOpacity(0.5),
+                child: SizedBox(
+                  width: constraints.maxWidth,
+                  height: constraints.maxHeight,
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  width: 250,
+                  height: 250,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 3.0,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 200,
+                        height: 2,
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(2),
+                          color: Colors.green,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
         },
       ),
     );
