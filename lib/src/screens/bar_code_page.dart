@@ -48,6 +48,7 @@ class _BarCodePageState extends State<BarCodePage> {
                     builder: (context) => ErrorPage(name: barcode.rawValue!, settingsController: widget.settingsController),
                   ),
                 );
+                return;
               }
 
               if (widget.accessType) {
