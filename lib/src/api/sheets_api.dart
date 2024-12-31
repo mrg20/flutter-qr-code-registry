@@ -1,5 +1,9 @@
 import 'package:gsheets/gsheets.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'dart:typed_data';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:csv/csv.dart';
 
 
 class SheetsApi {
@@ -22,6 +26,46 @@ class SheetsApi {
   static Worksheet _getWorkSheet(Spreadsheet spreadsheet, {required String title}) {
     return spreadsheet.worksheetByTitle(title)!;
   }
+
+  static Future<Uint8List> downloadRegistryAsPdf() async {
+    // Get all data from registry sheet
+    final values = await _registrySheet!.values.allRows();
+    
+    // Convert data to CSV format using csv library
+    final List<List<dynamic>> csvData = [];
+    
+    for (var i = 1; i < values.length; i++) {
+      var row = values[i];
+      if (row.length >= 3) {
+        csvData.add(row.sublist(0, 3));
+      }
+    }
+
+    final String csvString = const ListToCsvConverter().convert(csvData);
+    final StringBuffer buffer = StringBuffer();
+    buffer.write(csvString);
+    
+    // Create PDF document
+    final pdf = pw.Document();
+    // Add page with table
+    pdf.addPage(
+      pw.Page(
+        build: (context) {
+          return pw.TableHelper.fromTextArray(
+            headers: ['Treballador', 'Data', 'Tipus Accés'],
+            data: csvData,
+            border: pw.TableBorder.all(),
+            headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+            headerDecoration: const pw.BoxDecoration(color: PdfColors.grey300),
+            cellHeight: 30,
+            cellAlignment: pw.Alignment.center,
+          );
+        },
+      ),
+    );
+    return pdf.save();
+  }
+
 
   static Future<bool> checkUserInSheet(String user) async {
     final values = await _userSheet!.values.allRows();
