@@ -27,6 +27,24 @@ class SheetsApi {
     return spreadsheet.worksheetByTitle(title)!;
   }
 
+  static String extractdate(date){
+    // Parse days and fractional time from Excel timestamp
+        final excelTimestamp = double.parse(date);
+        final days = excelTimestamp.toInt();
+        final fractionalDay = excelTimestamp - days;
+        
+        // Convert to DateTime starting from Excel epoch
+        final dateTime = DateTime(1899, 12, 30)
+            .add(Duration(days: days))
+            // Convert fractional day to milliseconds (24*60*60*1000 ms in a day)
+            .add(Duration(milliseconds: (fractionalDay * 24 * 60 * 60 * 1000).round()));
+            
+        // Convert to UTC+1 by adding 1 hour
+        final utcPlus1DateTime = dateTime.toUtc().add(const Duration(hours: 1));
+            
+        return "${utcPlus1DateTime.day.toString().padLeft(2,'0')}-${utcPlus1DateTime.month.toString().padLeft(2,'0')}-${utcPlus1DateTime.year} ${utcPlus1DateTime.hour.toString().padLeft(2,'0')}:${utcPlus1DateTime.minute.toString().padLeft(2,'0')}:${utcPlus1DateTime.second.toString().padLeft(2,'0')}";
+  }
+
   static Future<Uint8List> downloadRegistryAsPdf() async {
     // Get all data from registry sheet
     final values = await _registrySheet!.values.allRows();
@@ -37,6 +55,15 @@ class SheetsApi {
     for (var i = 1; i < values.length; i++) {
       var row = values[i];
       if (row.length >= 3) {
+        row[1] = extractdate(row[1]);
+        // Replace user ID with full name from user sheet
+        final userValues = await _userSheet!.values.allRows();
+        for (var userRow in userValues) {
+          if (userRow.length > 1 && userRow[0] == row[0]) {
+            row[0] = userRow[1];
+            break;
+          }
+        }
         csvData.add(row.sublist(0, 3));
       }
     }
